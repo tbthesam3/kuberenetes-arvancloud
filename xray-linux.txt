@@ -1,0 +1,38 @@
+sudo mkdir -p /usr/local/etc/xray
+sudo vim /usr/local/etc/xray/config.json
+xray -c /usr/local/etc/xray/config.json
+sudo mv geosite.dat geoip.dat /usr/local/bin/
+sudo mv xray /usr/local/bin/
+sudo chmod +x /usr/local/bin/xray
+
+
+
+sudo vim /etc/systemd/system/xray.service
+
+
+[Unit]
+Description=Xray Service
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/xray -c /usr/local/etc/xray/config.json
+Restart=on-failure
+User=root
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl daemon-reload
+sudo systemctl enable xray --now
+sudo systemctl status xray
+
+export no_proxy=127.0.0.1,localhost,192.168.1.0/24,*.mecan.ir,.arvancloud.ir,.mecan.ir,.aliyuncs.com,lb-k8s.local
+export https_proxy=socks5h://127.0.0.1:10808
+export http_proxy=socks5h://127.0.0.1:10808
+export all_proxy=socks5h://127.0.0.1:10808
+
+
+
+curl --socks5 127.0.0.1:10808 https://ipinfo.io
+curl -I https://github.com

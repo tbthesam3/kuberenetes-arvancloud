@@ -1,0 +1,15 @@
+kind create cluster --config /root/kind-multinode.yaml --name kind-lab
+kubectl config get-contexts
+CURRENT   NAME                 CLUSTER          AUTHINFO         NAMESPACE
+*         kind-kind-lab       kind-kind-lab   kind-kind-lab
+          kubadm-cluster      kubadm-cluster  admin@kubadm-cluster
+kubectl config use-context kind-kind-lab
+kubectl get nodes
+systemctl start containerd
+systemctl start kubelet
+kubectl config use-context kubadm-cluster
+kubectl get nodes
+alias kkind="kubectl --context kind-kind-lab"
+alias kprod="kubectl --context kubadm-cluster"
+kkind get pods -A
+kprod get pods -A

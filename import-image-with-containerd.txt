@@ -1,0 +1,24 @@
+ctr -n k8s.io images ls
+ctr -n k8s.io images export kube-webhook-certgen.tar \
+  registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
+ctr -n k8s.io images export all-images.tar image1 image2 image3
+ctr -n k8s.io images import kube-webhook-certgen.tar
+
+
+ctr -n k8s.io images pull registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
+
+kind load docker-image busybox:latest --name kind-lab
+
+kubectl run busybox --rm -it --image=busybox:latest --overrides='
+{
+  "spec": {
+    "containers": [{
+      "name": "busybox",
+      "image": "busybox:latest",
+      "imagePullPolicy": "IfNotPresent",
+      "stdin": true,
+      "tty": true
+    }]
+  }
+}' -- /bin/sh
+

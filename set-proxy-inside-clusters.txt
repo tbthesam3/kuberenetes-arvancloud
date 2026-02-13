@@ -1,0 +1,11 @@
+docker exec -it kind-lab-control-plane bash
+
+cat <<'EOF' >/etc/systemd/system/containerd.service.d/proxy.conf
+[Service]
+Environment="HTTP_PROXY=socks5://host.docker.internal:10808"
+Environment="HTTPS_PROXY=socks5://host.docker.internal:10808"
+Environment="NO_PROXY=127.0.0.1,localhost,.cluster.local"
+EOF
+
+systemctl daemon-reexec
+systemctl restart containerd

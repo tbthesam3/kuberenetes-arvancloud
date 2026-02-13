@@ -1,0 +1,114 @@
+kubectl port-forward -n argocd svc/argocd-server 8081:80 --address 0.0.0.0
+
+raveshe amn tar
+
+kubectl port-forward -n argocd svc/argocd-server 8080:80 --address 192.168.56.101
+
+
+
+username argocd: admin
+
+kubectl -n argocd get secret argocd-initial-admin-secret \
+-o jsonpath="{.data.password}" | base64 -d
+
+
+password argocd: cEfGiq3jt45XxyR2
+
+  
+argocd login 127.0.0.1:8081 --insecure  
+
+
+argocd repo add git@github.com:tbthesam3/argocd-lab.git \
+  --ssh-private-key-path ~/.ssh/argocd \
+  --grpc-web
+
+argocd repo list
+
+argocd app create app01 \
+  --repo git@github.com:tbthesam3/argocd-lab.git \
+  --path app01-plain \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace default \
+  --grpc-web
+
+argocd app sync app01
+kubectl scale deploy app01 --replicas=3
+app01 → OutOfSync ⚠️
+argocd app get app01 --grpc-web
+Step 4️⃣ — Self-Heal (دستی)
+argocd app sync app01 --grpc-web
+replicas → برمی‌گرده به مقدار Git
+Step 5️⃣ — Auto Self-Heal (حالت حرفه‌ای)
+
+argocd app set app01 \
+  --sync-policy automated \
+  --self-heal \
+  --grpc-web
+
+kubectl scale deploy app01 --replicas=5
+kubectl delete pod -l app=app01
+
+delete application in argoCd
+
+argocd app delete app03 --cascade --foreground
+یا (چون foreground پیش‌فرضه):
+argocd app delete app03
+
+⚠️ وقتی عجله داری
+⚠️ resource خیلی زیاده
+⚠️ ولی معمولاً Foreground بهتره
+argocd app delete app03 --cascade --background
+Application ❌
+Resources ❌ (با تأخیر)
+
+فقط Application پاک می‌شه
+resourceها می‌مونن
+دیگه GitOps روشون اعمال نمی‌شه
+argocd app delete app03 --cascade=false
+Application ❌
+Deployment ✅
+Pods ✅
+Service ✅
+
+Prune  = Git حذف کرده → Cluster هم حذف کن
+Delete = Application رو کلاً نابود کن
+argocd app sync app03 --prune ==. مثلا وقتی تو گیتلب فایل دیپلویمنت رو پاک میکنیم و کامیت میکنیم و پوش:
+Deployment ❌
+Service ✅
+Application ✅
+حالا فرق prune با delete
+argocd app delete app03
+Application ❌
+All resources ❌
+اگر Auto-Sync فعال باشه و:
+syncPolicy:
+  automated:
+    prune: true
+	دیگه لازم نیست --prune بزنی، خودکار انجام می‌شه.
+	
+az tariqe config file	recommend
+touch applications/app03.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app03
+  namespace: argocd
+spec:
+  project: default
+
+  source:
+    repoURL: git@github.com:tbthesam3/argocd-lab.git
+    targetRevision: HEAD
+    path: app03
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+kubectl apply -f applications/app03.yaml
+	
+az tariqe command line:

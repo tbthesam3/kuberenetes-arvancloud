@@ -1,0 +1,51 @@
+✅ CoreDNS درست کار می‌کنه
+✅ DNS Resolution سالمه
+✅ Calico شبکه رو درست Route کرده
+✅ Pod → Internet OK
+🎉 کلاستر کاملاً سالمه
+
+kubectl run test-pod-1 -it --rm --image busybox -- ping google.com
+
+
+🧪 تست 1: آیا DNS کار می‌کنه؟
+kubectl run -it --rm dns-test \
+--image=busybox --restart=Never -- nslookup google.com
+
+🧪 تست 2: بدون DNS، مستقیم IP
+kubectl run -it --rm net-test \
+--image=busybox --restart=Never -- ping 8.8.8.8
+
+
+🧪 تست 3: DNS داخلی Kubernetes
+kubectl run -it --rm dns-int \
+--image=busybox --restart=Never -- nslookup kubernetes.default
+
+
+sysctl net.ipv4.ip_forward
+net.ipv4.ip_forward = 1   باید یک برگردونه
+
+
+kubeadm init phase addon kube-proxy \
+  --config /opt/kubeadm_config.yml
+  
+kubectl run test-pod-2 -it  --image busybox -- cat /etc/resolv.conf
+ default.svc.cluster.local svc.cluster.local cluster.local   ====> in bayad bashe  
+ 
+Test-Nginx:
+
+We will now also verify that kubernetes built-in DNS works across namespaces. Create a namespace:
+```
+kubectl create namespace dev
+```
+Create an nginx deployment and expose it within the cluster:
+```
+kubectl create deployment nginx --image=nginx -n dev
+kubectl expose deployment nginx --port 80 --type ClusterIP -n dev
+```
+Run a temporary container to see if we can reach the service from the default namespace:
+```
+kubectl run curly -it --rm --image curlimages/curl:7.70.0 -- /bin/sh
+curl --head http://nginx.dev:80
+```
+ 
+ 

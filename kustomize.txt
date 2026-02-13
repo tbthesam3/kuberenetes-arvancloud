@@ -1,0 +1,11 @@
+kubectl kustomize app03-kustomize/overlays/dev
+
+kubectl apply -k app03-kustomize/overlays/dev
+
+
+argocd app create app03 \
+  --repo git@github.com:tbthesam3/argocd-lab.git \
+  --path app03-kustomize/overlays/dev \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace default \
+  --grpc-web

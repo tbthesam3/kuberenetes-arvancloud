@@ -1,0 +1,7 @@
+tcpdump host hub.mecan.ir
+sudo tcpdump -i any host hub.mecan.ir
+sudo tcpdump -i any tcp port 443
+sudo tcpdump -i any port 443
+sudo tcpdump -i any tcp and \( host hub.mecan.ir or host docker.io \)
+sudo tcpdump -i any -nn tcp port 443
+tcpdump -n host hub.mecan.ir or host docker.io

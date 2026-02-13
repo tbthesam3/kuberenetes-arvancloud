@@ -1,0 +1,43 @@
+in workers and masters
+
+kubectl get nodes
+
+
+in masters(control plane)
+systemctl status kubelet
+systemctl start kubelet  # اگر stopped بود
+
+
+
+
+kubectl get pods -n kube-system
+        kube-apiserver-<master>
+
+        kube-controller-manager-<master>
+
+        kube-scheduler-<master>
+
+        etcd-<master>
+
+journalctl -u kubelet -f
+
+dakhele etcd container:
+crictl ps | grep etcd
+crictl exec -it <CONTAINER_ID> /bin/sh
+
+ETCDCTL_API=3 etcdctl endpoint health \
+  --endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key
+
+kubectl get pods -n kube-system
+systemctl status kubelet
+journalctl -u kubelet -f
+sed -i '/swap/d' /etc/fstab
+swapoff -a
+timedatectl set-ntp true
+kubectl describe node master-problem
+kubectl get nodes -o wide
+kubectl get pods -n kube-system
+

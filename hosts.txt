@@ -1,0 +1,22 @@
+vip_ip=192.168.1.108
+master1_ip=192.168.1.102
+master2_ip=192.168.1.105
+master3_ip=192.168.1.106
+domain_name=mecan.ir
+master1_name=master1
+master2_name=master2
+master3_name=master3
+vip_api_name=vip.kubeadm
+
+
+
+
+
+192.168.56.101 master1
+
+192.168.56.102 master2
+
+192.168.56.103 master3
+
+192.168.56.104 lb-k8s.local
+

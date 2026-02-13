@@ -1,0 +1,22 @@
+kubectl drain master2 --ignore-daemonsets --delete-emptydir-data
+kubectl drain master3 --ignore-daemonsets --delete-emptydir-data
+
+
+backup etcd
+ETCDCTL_API=3 etcdctl snapshot save /root/etcd-snapshot.db \
+  --endpoints=https://127.0.0.1:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key
+
+rooye hameye master ha
+sudo systemctl stop kubelet
+
+restore dar soorati k etcd be moshkel barkhord:
+ETCDCTL_API=3 etcdctl snapshot restore /root/etcd-snapshot.db \
+  --name master1 \
+  --initial-cluster master1=https://192.168.56.101:2380,master2=https://192.168.56.102:2380,master3=https://192.168.56.103:2380 \
+  --initial-cluster-token etcd-cluster-1 \
+  --initial-advertise-peer-urls https://192.168.56.101:2380 \
+  --data-dir /var/lib/etcd
+

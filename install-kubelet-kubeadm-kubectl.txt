@@ -1,0 +1,8 @@
+apt download kubelet=1.33.5-1.1 kubernetes-cni
+apt download kubeadm=1.33.5-1.1 
+apt download kubectl=1.33.5-1.1
+
+dpkg -i kubelet_1.33.5-1.1_amd64.deb
+dpkg -i kubernetes-cni_1.33.5-1.1_amd64.deb
+dpkg -i kubeadm_1.33.5-1.1_amd64.deb
+dpkg -i kubectl_1.33.5-1.1_amd64.deb

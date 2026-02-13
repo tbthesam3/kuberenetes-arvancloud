@@ -1,0 +1,22 @@
+Export
+sudo ctr -n k8s.io images export coredns_v1.12.0.tar registry.aliyuncs.com/google_containers/coredns:v1.12.0
+sudo ctr -n k8s.io images export etcd_v3.5.9.tar registry.aliyuncs.com/google_containers/etcd:v3.5.9
+sudo ctr -n k8s.io images export kube-apiserver_v1.33.5.tar registry.aliyuncs.com/google_containers/kube-apiserver:v1.33.5
+sudo ctr -n k8s.io images export kube-controller-manager_v1.33.5.tar registry.aliyuncs.com/google_containers/kube-controller-manager:v1.33.5
+sudo ctr -n k8s.io images export kube-proxy_v1.33.5.tar registry.aliyuncs.com/google_containers/kube-proxy:v1.33.5
+sudo ctr -n k8s.io images export kube-scheduler_v1.33.5.tar registry.aliyuncs.com/google_containers/kube-scheduler:v1.33.5
+sudo ctr -n k8s.io images export pause_v3.10.tar registry.aliyuncs.com/google_containers/pause:3.10
+
+
+Import
+sudo ctr -n k8s.io images import kube-proxy_v1.33.5.tar
+sudo ctr -n k8s.io images import kube-apiserver_v1.33.5.tar
+sudo ctr -n k8s.io images import kube-scheduler_v1.33.5.tar
+sudo ctr -n k8s.io images import kube-controller-manager_v1.33.5.tar
+sudo ctr -n k8s.io images import pause_v3.10.tar
+sudo ctr -n k8s.io images import coredns_v1.12.0.tar
+sudo ctr -n k8s.io images import etcd_v3.5.9.tar
+
+
+
+

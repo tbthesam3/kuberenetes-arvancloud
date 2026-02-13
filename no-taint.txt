@@ -1,0 +1,10 @@
+kubectl taint nodes master2 node-role.kubernetes.io/control-plane:NoSchedule-
+kubectl taint nodes master3 node-role.kubernetes.io/control-plane:NoSchedule-
+
+
+kubectl run test --image=nginx --restart=Never
+kubectl get pod test -o wide
+
+
+kubectl label node master2 node-role=hybrid
+kubectl label node master3 node-role=hybrid
