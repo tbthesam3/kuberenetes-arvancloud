@@ -112,3 +112,18 @@ spec:
 kubectl apply -f applications/app03.yaml
 	
 az tariqe command line:
+
+argocd app list
+
+test kustomize
+cd app03-kustomize/overlays/dev
+kubectl kustomize .
+
+ساخت اپلیکیشن برای محیط خاص با kustomize در argocd
+
+argocd app create app03-dev \
+  --repo git@github.com:tbthesam3/argocd-lab.git \
+  --path app03/overlays/dev \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace default
+
