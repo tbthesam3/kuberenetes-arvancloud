@@ -1,0 +1,4 @@
+PUT /products
+GET /_cat/indices
+GET /_cat/nodes
+GET /_cat/health
