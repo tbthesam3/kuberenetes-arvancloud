@@ -1,0 +1,35 @@
+Windows + R
+%temp%
+Ctrl + A
+delete hameye file ha
+
+Windows + R
+cleanmgr
+درایو C رو انتخاب کن.
+
+4️⃣ تیک این گزینه‌ها رو بزن:
+
+Temporary files
+
+Recycle Bin
+
+Thumbnails
+
+5️⃣ OK → Delete Files
+
+✔ این کار معمولاً چند گیگ فضا آزاد می‌کنه.
+
+Windows + R
+services.msc
+Windows Search
+Disabled
+روش دابل کلیک کن.
+
+6️⃣ داخل پنجره‌ای که باز میشه:
+
+روی Stop کلیک کن.
+
+Startup type رو بذار روی:
+Apply → OK
+
+تمام ✅

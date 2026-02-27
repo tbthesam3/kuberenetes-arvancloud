@@ -21,6 +21,10 @@ argocd login 127.0.0.1:8081 --insecure
 argocd repo add git@github.com:tbthesam3/argocd-lab.git \
   --ssh-private-key-path ~/.ssh/argocd \
   --grpc-web
+  
+argocd repo add git@github.com:tbthesam3/argocd-lab-with-helm.git \
+  --ssh-private-key-path ~/.ssh/argocd \
+  --grpc-web
 
 argocd repo list
 
